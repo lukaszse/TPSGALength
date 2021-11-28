@@ -1,6 +1,6 @@
 applicationType: cli
 defaultPackage: pl.com.seremak
-testFramework: kotest
+testFramework: spock
 sourceLanguage: java
 buildTool: gradle
-features: [annotation-api, app-name, gradle, java, kotest, logback, picocli, picocli-java-application, picocli-kotest, readme, shade, yaml]
+features: [annotation-api, app-name, gradle, java, logback, lombok, micronaut-build, picocli, picocli-java-application, picocli-spock, readme, shade, spock, yaml]

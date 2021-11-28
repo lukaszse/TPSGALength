@@ -1,0 +1,52 @@
+plugins {
+    id("org.jetbrains.kotlin.jvm") version "1.6.0"
+    id("org.jetbrains.kotlin.kapt") version "1.6.0"
+    id("com.github.johnrengelman.shadow") version "7.1.0"
+    id("io.micronaut.application") version "3.0.0"
+    id("org.jetbrains.kotlin.plugin.allopen") version "1.6.0"
+}
+
+version = "0.1"
+group = "pl.com.seremak"
+
+repositories {
+    mavenCentral()
+}
+
+micronaut {
+    testRuntime("kotest")
+    processing {
+        incremental(true)
+        annotations("pl.com.seremak.*")
+    }
+}
+
+dependencies {
+    kapt("info.picocli:picocli-codegen")
+    implementation("info.picocli:picocli")
+    implementation("io.micronaut:micronaut-runtime")
+    implementation("io.micronaut.picocli:micronaut-picocli")
+    implementation("javax.annotation:javax.annotation-api")
+    runtimeOnly("ch.qos.logback:logback-classic")
+    implementation("io.micronaut:micronaut-validation")
+
+    testImplementation("io.micronaut:micronaut-http-client")
+
+}
+
+
+application {
+    mainClass.set("pl.com.seremak.TPSGALengthCommand")
+}
+java {
+    sourceCompatibility = JavaVersion.toVersion("17")
+    targetCompatibility = JavaVersion.toVersion("17")
+}
+
+tasks {
+    compileTestKotlin {
+        kotlinOptions {
+            jvmTarget = "17"
+        }
+    }
+}

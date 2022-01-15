@@ -17,17 +17,20 @@ public class RouteCalculationService {
 
     public void run(final String inputFilePath, final String sourceFilePath) {
         var sourceLocations = LocationReader.readLocation(sourceFilePath);
-        var resultTuple = LocationReader.readResultRoute(inputFilePath);
-        var resultLength = resultTuple._1;
-        var resultRoute = resultTuple._2;
-        var calculatedRouteLength = buildRouteFromResult(resultRoute, sourceLocations);
-        log.info("Read route length = {}", resultLength);
-        log.info("Calculated route length = {}", calculatedRouteLength.getRouteLength());
+        var resultTupleArray = LocationReader.readResultRoute(inputFilePath);
 
-        if(resultLength.equals(calculatedRouteLength.getRouteLength())) {
-            log.info("RESULT CORRECT!");
-        } else {
-            log.error("RESULT INCORRECT!");
+        for(var resultTuple : resultTupleArray) {
+            var resultLength = resultTuple._1;
+            var resultRoute = resultTuple._2;
+            var calculatedRouteLength = buildRouteFromResult(resultRoute, sourceLocations);
+            log.info("Read route length = {}", resultLength);
+            log.info("Calculated route length = {}", calculatedRouteLength.getRouteLength());
+
+            if(resultLength.equals(calculatedRouteLength.getRouteLength())) {
+                log.info("RESULT CORRECT!");
+            } else {
+                log.error("!!!!!!       RESULT INCORRECT    !!!!!! ");
+            }
         }
     }
 

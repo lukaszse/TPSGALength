@@ -22,14 +22,22 @@ public class LocationReader {
                 .filter(Objects::nonNull);
     }
 
-    public static Tuple2<Integer, Array<Integer>> readResultRoute(final String stringPath) {
+    public static Array<Tuple2<Integer, Array<Integer>>> readResultRoute(final String stringPath) {
         var path = Paths.get(stringPath);
-        var resultLocations = Arrays.stream(FileLineReader.readFile(path)
-                .get()
-                .split(" "))
+        return FileLineReader.readFile(path)
+                .map(LocationReader::toStringArray)
+                .map(LocationReader::toTuple2)
+                .collect(Array.collector());
+    }
+
+    public static Tuple2<Integer, Array<Integer>> toTuple2(final Array<Integer> singleResultLocations) {
+        return Tuple.of(singleResultLocations.last(), singleResultLocations.removeLast(__ -> true));
+    }
+
+    public static Array<Integer> toStringArray(final String str) {
+        return Arrays.stream(str.split(" "))
                 .map(Integer::parseInt)
                 .collect(Array.collector());
-        return Tuple.of(resultLocations.get(), resultLocations.removeAt(0));
     }
 
     private static Location mapLineToLocation(final String stringLine) {
